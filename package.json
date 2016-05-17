@@ -1,0 +1,35 @@
+{
+  "name": "cabi-checker",
+  "version": "1.0.0",
+  "description": "see if there are bikes form the command line",
+  "main": "cabi.js",
+  "bin": {
+    "cabi": "cabi.js"
+  },
+  "scripts": {
+    "test": "node test/loc.js"
+  },
+  "keywords": ["bike", "bikeshare", "gbfs", "node"],
+  "author": "john@primitivemachine.com",
+  "license": "MIT",
+  "dependencies": {
+    "debug": "^2.2.0",
+    "geolib": "^2.0.21",
+    "isomorphic-fetch": "^2.2.1",
+    "userhome": "^1.0.0"
+  },
+  "devDependencies": {
+    "tape": "^4.5.1"
+  },
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/johnelliott/cabi-checker.git"
+  },
+  "bugs": {
+    "url": "https://github.com/johnelliott/cabi-checker/issues"
+  },
+  "homepage": "https://github.com/johnelliott/cabi-checker#readme"
+}
