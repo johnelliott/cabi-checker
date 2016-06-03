@@ -21,8 +21,9 @@ debug(loc)
 
 
 // set up Urls
+// https://gbfs.capitalbikeshare.com/gbfs/en/station_information.json
 var config = {
-  protocol: 'http:',
+  protocol: 'https:',
   headers:{}
 }
 var stationInfoURL = url.format({
