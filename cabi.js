@@ -37,10 +37,10 @@ fetch(stationInfoURL)
         debug('localStationsInfo', localStationsInfo)
 
       localStationsInfo.forEach(e => {
-        const name = localStations[localStations.map(s => s.station_id).indexOf(e.station_id)].name
+        const name = localStations[localStations.map(s => s.station_id)
+          .indexOf(e.station_id)].name
         const bikes = parseInt(e.num_bikes_available)
         const docks = parseInt(e.num_docks_available)
-        // TODO get the name to show up
         console.log(`${name}: ${bikes}/${docks} ${createEmojiDockString(bikes, docks)}`)
       })
     })
