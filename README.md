@@ -21,6 +21,7 @@ https://gbfs.citibikenyc.com/gbfs/en/station_status.json
 ```
 `$ cabi`
 
+# sample output (different now, lazy)
 ```
 Read config 38° 55' 57" N  77° 1' 42" W
 Getting station info...

@@ -9,8 +9,8 @@ debug(`Read config ${cabirc}`)
 const [locationString, stationInfoURL, stationStatusURL] = cabirc
 const split = locationString.split('  ')
 const loc = {
-	latitude: split[0],
-	longitude: split[1]
+  latitude: split[0],
+  longitude: split[1]
 }
 debug(loc)
 
@@ -24,9 +24,12 @@ fetch(stationInfoURL)
   })
   .then(res => res.json())
   .then(json => {
+    json.data.stations.forEach(e => {
+      e.away = geolib.getDistance(loc, {latitude: e.lat, longitude: e.lon})
+    })
     const localStations = json.data.stations
-      .filter(e => geolib.getDistance(loc, {latitude: e.lat, longitude: e.lon}) <= 400)
-    debug('localStations', localStations)
+      .filter(e => e.away <= 2000)
+    debug('localStations', localStations.map(s => s.away))
 
     // Second json fetch is simply nested
     debug('Getting dock status...')
@@ -45,27 +48,27 @@ fetch(stationInfoURL)
             .includes(e.station_id))
         debug('localStationsInfo', localStationsInfo)
 
-        localStationsInfo.forEach(e => {
-          const name = localStations[localStations.map(s => s.station_id)
-            .indexOf(e.station_id)].name
-          const bikes = parseInt(e.num_bikes_available)
-          const docks = parseInt(e.num_docks_available)
-          console.log(`${name}: ${bikes}/${docks} ${createEmojiDockString(bikes, docks)}`)
+        localStationsInfo
+          .sort((a, b) => {
+            const stationAInfo = localStations[localStations.map(s => s.station_id).indexOf(a.station_id)]
+            const stationBInfo = localStations[localStations.map(s => s.station_id).indexOf(b.station_id)]
+            return stationAInfo.away - stationBInfo.away
+          })
+          .slice(0, 5)
+          .forEach(e => {
+            const stationInfo = localStations[localStations.map(s => s.station_id).indexOf(e.station_id)]
+            const bikes = parseInt(e.num_bikes_available)
+            const docks = parseInt(e.num_docks_available)
+            console.log(`${bikes} bikes ${docks} docks ${stationInfo.name} (${stationInfo.away}m)`)
 
-          const ebikes = parseInt(e.num_ebikes_available)
-          if (ebikes > 0) {
-            console.log(`⚡️ ebikes: ${name} has ${ebikes} ⚡️`)
-          }
-
-        })
+            const ebikes = parseInt(e.num_ebikes_available)
+            if (ebikes > 0) {
+              console.log(`⚡️ ebikes: ${stationInfo.name} has ${ebikes} ⚡️`)
+            }
+          })
       })
   })
   .catch(err => {
     console.error(err)
     process.exit(1)
   })
-
-function createEmojiDockString (bikes, docks) {
-  // return Array(bikes+1).join("🚴 ").concat(Array(docks+1).join('⎍ '))
-  return bikes ? '🚴' : '⎍ '
-}

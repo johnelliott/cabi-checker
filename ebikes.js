@@ -1,7 +1,6 @@
 const fs = require('fs')
 const debug = require('debug')('cabi')
 const fetch = require('node-fetch')
-const geolib = require('geolib')
 const userhome = require('userhome')
 
 const cabirc = fs.readFileSync(userhome('.cabirc'), 'utf8').split('\n')
@@ -9,8 +8,8 @@ debug(`Read config ${cabirc}`)
 const [locationString, stationInfoURL, stationStatusURL] = cabirc
 const split = locationString.split('  ')
 const loc = {
-	latitude: split[0],
-	longitude: split[1]
+  latitude: split[0],
+  longitude: split[1]
 }
 debug(loc)
 
@@ -46,17 +45,15 @@ fetch(stationInfoURL)
         debug('localStationsInfo', localStationsInfo)
 
         localStationsInfo.forEach(e => {
-          const name = localStations[localStations.map(s => s.station_id)
-            .indexOf(e.station_id)].name
+          const name = localStations[localStations.map(s => s.station_id).indexOf(e.station_id)].name
           // const bikes = parseInt(e.num_bikes_available)
           // const docks = parseInt(e.num_docks_available)
           // console.log(`${name}: ${bikes}/${docks} ${createEmojiDockString(bikes, docks)}`)
 
           const ebikes = parseInt(e.num_ebikes_available)
           if (ebikes) {
-            console.log(`⚡️ ${ebikes} @ ${name}`)
+            console.log(`⚡️  ${ebikes} ${name}`)
           }
-
         })
       })
   })
@@ -64,7 +61,3 @@ fetch(stationInfoURL)
     console.error(err)
     process.exit(1)
   })
-
-function createEmojiDockString (bikes, docks) {
-  return Array(bikes+1).join("🚴 ").concat(Array(docks+1).join('⎍ '))
-}
