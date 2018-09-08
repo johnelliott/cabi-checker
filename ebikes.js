@@ -25,7 +25,7 @@ fetch(stationInfoURL)
   .then(res => res.json())
   .then(json => {
     const localStations = json.data.stations
-      .filter(e => geolib.getDistance(loc, {latitude: e.lat, longitude: e.lon}) <= 400)
+    // .filter(e => geolib.getDistance(loc, {latitude: e.lat, longitude: e.lon}) <= 400)
     debug('localStations', localStations)
 
     // Second json fetch is simply nested
@@ -48,13 +48,13 @@ fetch(stationInfoURL)
         localStationsInfo.forEach(e => {
           const name = localStations[localStations.map(s => s.station_id)
             .indexOf(e.station_id)].name
-          const bikes = parseInt(e.num_bikes_available)
-          const docks = parseInt(e.num_docks_available)
-          console.log(`${name}: ${bikes}/${docks} ${createEmojiDockString(bikes, docks)}`)
+          // const bikes = parseInt(e.num_bikes_available)
+          // const docks = parseInt(e.num_docks_available)
+          // console.log(`${name}: ${bikes}/${docks} ${createEmojiDockString(bikes, docks)}`)
 
           const ebikes = parseInt(e.num_ebikes_available)
-          if (ebikes > 0) {
-            console.log(`⚡️ ebikes: ${name} has ${ebikes} ⚡️`)
+          if (ebikes) {
+            console.log(`⚡️ ${ebikes} @ ${name}`)
           }
 
         })
@@ -66,6 +66,5 @@ fetch(stationInfoURL)
   })
 
 function createEmojiDockString (bikes, docks) {
-  // return Array(bikes+1).join("🚴 ").concat(Array(docks+1).join('⎍ '))
-  return bikes ? '🚴' : '⎍ '
+  return Array(bikes+1).join("🚴 ").concat(Array(docks+1).join('⎍ '))
 }

@@ -14,11 +14,11 @@ This app does one thing. Much of it is nested and specific to GBFS and even DC. 
 This app uses a `.cabirc` file in the user home directory. The file contains the location from which to search.
 
 Get your location however you'd like. I used the compass app on my phone and copied the text through the notes app. Edit `.cabirc` in your user home directory.
-`$ echo "38° 55' 57" N  77° 1' 42" W\
-https://gbfs.citibikenyc.com/gbfs/en/station_information.json\
-https://gbfs.citibikenyc.com/gbfs/en/station_status.json" >> ~/.cabirc`
-
-# use
+```
+40° 45' 40" N  75° 0' 30" W
+https://gbfs.citibikenyc.com/gbfs/en/station_information.json
+https://gbfs.citibikenyc.com/gbfs/en/station_status.json
+```
 `$ cabi`
 
 ```
